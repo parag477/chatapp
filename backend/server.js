@@ -8,10 +8,22 @@ const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
 
-app.use(cors());
+const corsOptions = {
+  origin: [
+    'https://chatapp-blush-seven.vercel.app',
+    'http://localhost:3000'
+  ],
+  credentials: true
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ 
+  server,
+  handleProtocols: (protocols) => {
+    return protocols.includes('chat') ? 'chat' : false;
+  }
+});
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/chat-app')
   .then(() => console.log('Connected to MongoDB'))

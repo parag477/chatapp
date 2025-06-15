@@ -37,7 +37,7 @@ function App() {
   const handleConnect = (username) => {
     // Connect to WebSocket server
     const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:5001';
-    ws.current = new WebSocket(wsUrl);
+    ws.current = new WebSocket(wsUrl, 'chat'); 
 
     ws.current.onopen = () => {
       console.log('Connected to WebSocket server');
